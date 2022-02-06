@@ -28,13 +28,13 @@ def startGame():
 
     printGrid(grid)
     loseStatus = 0
-    move.score = 0 # Score of the user
+    score = 0 # Score of the user
     while True:
         tmp = input("\nTo continue, Press 1 for left, 2 for right, 3 for up, 4 for down movements or\nPress 0 to end the game.\n")
         if tmp in ["1", "2", "3", "4", "0"]:
             dir = direction[tmp]
             if dir == 4:
-                print ("\nFinal score: " + str(move.score))
+                print ("\nFinal score: " + str(score))
                 break
             else:
                 pass
