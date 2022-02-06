@@ -28,17 +28,24 @@ def startGame():
 
     printGrid(grid)
     loseStatus = 0
-    score = 0 # Score of the user
+    move.score = 0
     while True:
         tmp = input("\nTo continue, Press 1 for left, 2 for right, 3 for up, 4 for down movements or\nPress 0 to end the game.\n")
         if tmp in ["1", "2", "3", "4", "0"]:
             dir = direction[tmp]
             if dir == 4:
-                print ("\nFinal score: " + str(score))
+                print ("\nFinal score: " + str(move.score))
                 break
             else:
-                grid,loseStatus=addNumber(grid)
+                grid = move(grid, dir)
+                grid, loseStatus= addNumber(grid)
                 printGrid(grid)
+                if loseStatus:
+                    print ("\nGame Over")
+                    print ("Final score: " + str(move.score))
+                    break
+                print ("\nCurrent score: " + str(move.score))
+        
         else:
             print ("\nInvalid direction, please provide valid movement direction (1, 2, 3, 4).")
     return 0
@@ -74,6 +81,34 @@ def addNumber(grid):
         x, y, lost = findEmptySlot(grid)
     if not lost: grid[x][y] = str(num)
     return (grid, lost)
+
+# Implements game logic 
+# Generalized for all four directions using rotation logic
+def move(grid, dir):
+    for i in range(dir): grid = rotate(grid) #we will be rotating the grid based on direction movement.
+    for i in range(len(grid)):
+        temp = []
+        for j in grid[i]:
+            if j != '.':
+                temp.append(j)
+        temp += ['.'] * grid[i].count('.') 
+        for j in range(len(temp) - 1):
+            if temp[j] == temp[j + 1] and temp[j] != '.' and temp[j + 1] != '.': #checks if adjacent cells are same
+                temp[j] = str(2 * int(temp[j]))
+                move.score += int(temp[j])
+                temp[j + 1] = '.'
+        grid[i] = []
+        for j in temp:
+            if j != '.':
+                grid[i].append(j)
+        grid[i] += ['.'] * temp.count('.')
+    for i in range(4 - dir): grid = rotate(grid)
+    return grid
+
+# Rotates a 2D list clockwise
+def rotate(grid):
+    return list(map(list, zip(*grid[::-1])))
+
 
 
 # Program starts here
