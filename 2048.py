@@ -37,7 +37,8 @@ def startGame():
                 print ("\nFinal score: " + str(score))
                 break
             else:
-                pass
+                grid,loseStatus=addNumber(grid)
+                printGrid(grid)
         else:
             print ("\nInvalid direction, please provide valid movement direction (1, 2, 3, 4).")
     return 0
@@ -62,6 +63,17 @@ def findEmptySlot(grid):
             if grid[i][j] == '.':
                 return (i, j, 0)
     return (-1, -1, 1)
+
+# Adds a random number to the grid whenever user gives an input
+def addNumber(grid):
+    num = random.randint(1, 2) * 2
+    x = random.randint(0, 3)
+    y = random.randint(0, 3)
+    lost = 0
+    if grid[x][y] != '.':
+        x, y, lost = findEmptySlot(grid)
+    if not lost: grid[x][y] = str(num)
+    return (grid, lost)
 
 
 # Program starts here
