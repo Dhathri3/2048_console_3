@@ -4,7 +4,6 @@ def startGame():
     print ("\n 2048 Console based game.")
     print ("\nYou can move numbers to left, right, top or bottom direction.If you make a 2048 block,you win.\n")
     
-    
     # Create the game grid 
     # The game should work for square grid of any size though. I am taking 4*4 grid here.
     grid = [['.', '.', '.', '.'],
@@ -25,7 +24,24 @@ def startGame():
         i2, j2, l = findEmptySlot(grid)
     if not l: grid[i2][j2] = str(num2)
 
+    direction = {'1': 0, '4': 1, '2': 2, '3': 3, '0': 4}
+
     printGrid(grid)
+    loseStatus = 0
+    move.score = 0 # Score of the user
+    while True:
+        tmp = input("\nTo continue, Press 1 for left, 2 for right, 3 for up, 4 for down movements or\nPress 0 to end the game.\n")
+        if tmp in ["1", "2", "3", "4", "0"]:
+            dir = direction[tmp]
+            if dir == 4:
+                print ("\nFinal score: " + str(move.score))
+                break
+            else:
+                pass
+        else:
+            print ("\nInvalid direction, please provide valid movement direction (1, 2, 3, 4).")
+    return 0
+
 
 # Prints the current game state
 def printGrid(grid):
